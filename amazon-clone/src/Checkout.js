@@ -6,10 +6,13 @@ import { useStateValue } from "./StateProvider";
 
 function Checkout() {
   const [{ basket, user }, dispatch] = useStateValue();
+  
 
   return (
     <div className="checkout">
       <div className="checkout__left">
+
+        {/* makining changes test */}
         {/* ad image banner */}
         <img
           src="https://images-eu.ssl-images-amazon.com/images/G/31/img18/TV/Sanyo/SanyoWebBanner01._CB1198675309_.jpg"
