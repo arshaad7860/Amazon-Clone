@@ -2,6 +2,7 @@ import "./App.css";
 import React, { useEffect } from "react";
 import Header from "./Header";
 import Home from "./Home";
+import Payment from "./Payment";
 import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
 import Checkout from "./Checkout";
 import Login from "./Login";
@@ -18,15 +19,15 @@ function App() {
       if (authUser) {
         // the user just logged in / user was logged in already
         dispatch({
-          type:'SET_USER',
-          user:authUser
-        })
+          type: "SET_USER",
+          user: authUser,
+        });
       } else {
         //user is logged out
         dispatch({
-          type:'SET_USER',
-          user:null
-        })
+          type: "SET_USER",
+          user: null,
+        });
       }
     });
   }, []);
@@ -49,6 +50,13 @@ function App() {
             <Header />
             {/* checkout component */}
             <Checkout />
+          </Route>
+          <Route path="/payment">
+            {/* header navigation */}
+
+            <Header />
+            {/* payment component */}
+            <Payment />
           </Route>
 
           {/* Home page route must be at bottom */}
