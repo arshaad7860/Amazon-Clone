@@ -1,29 +1,40 @@
-import "./App.css";
 import React, { useEffect } from "react";
+import "./App.css";
 import Header from "./Header";
 import Home from "./Home";
-import Payment from "./Payment";
-import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
+import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 import Checkout from "./Checkout";
 import Login from "./Login";
+import Payment from "./Payment";
+import Orders from "./Orders";
 import { auth } from "./firebase";
 import { useStateValue } from "./StateProvider";
+import { loadStripe } from "@stripe/stripe-js";
+import { Elements } from "@stripe/react-stripe-js";
+
+//public key from stripe inside loadStripe()
+const promise = loadStripe(
+  "pk_test_51HgCnJGL4WxFtimkpoj2eNaFKJPhbgeGzJoaOdJcNiyIxfux0seMhbqzy87mk9Xc0dmViurwlrh51rPGXR0ciBiR00CN8PID7u"
+);
 
 function App() {
   const [{}, dispatch] = useStateValue();
 
   useEffect(() => {
+    // will only run once when the app component loads...
+
     auth.onAuthStateChanged((authUser) => {
-      console.log("THE USER IS >>>", authUser);
+      console.log("THE USER IS >>> ", authUser);
 
       if (authUser) {
-        // the user just logged in / user was logged in already
+        // the user just logged in / the user was logged in
+
         dispatch({
           type: "SET_USER",
           user: authUser,
         });
       } else {
-        //user is logged out
+        // the user is logged out
         dispatch({
           type: "SET_USER",
           user: null,
@@ -31,40 +42,30 @@ function App() {
       }
     });
   }, []);
+
   return (
     <Router>
       <div className="app">
-        {/* created firebase login */}
-        {/* header navigation */}
-
         <Switch>
-          {/* login route */}
+          <Route path="/orders">
+            <Header />
+            <Orders />
+          </Route>
           <Route path="/login">
-            {/* login component */}
             <Login />
           </Route>
-          {/* checkout route */}
           <Route path="/checkout">
-            {/* header navigation */}
-
             <Header />
-            {/* checkout component */}
             <Checkout />
           </Route>
           <Route path="/payment">
-            {/* header navigation */}
-
             <Header />
-            {/* payment component */}
-            <Payment />
+            <Elements stripe={promise}>
+              <Payment />
+            </Elements>
           </Route>
-
-          {/* Home page route must be at bottom */}
           <Route path="/">
-            {/* header navigation */}
-
             <Header />
-            {/* home page component */}
             <Home />
           </Route>
         </Switch>

@@ -45,15 +45,17 @@
 }
 .header__optionLineOne {
   font-size: 10px;
+  
 }
 .header__optionLineTwo {
   font-size: 13px;
   font-weight: 800;
+  
 }
-.header_optionBasket {
+.header__optionBasket {
   display: flex;
   align-items: center;
-  color: white;
+  color: #cd9042;
 }
 .header__basketCount {
   margin-left: 10px;
